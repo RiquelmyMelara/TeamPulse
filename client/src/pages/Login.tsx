@@ -17,6 +17,7 @@ export default function Login() {
         try {
             const response = await axios.post('/api/auth/login', form);
             alert(`Welcome back, token: ${response.data.token}`);
+            console.log(response.data);
         } catch (err) {
             alert('Login failed');
             console.error(err);
