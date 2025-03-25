@@ -1,5 +1,6 @@
 import { initPrisma } from '../lib/prisma';
 import { initRedis } from '../utils/redis';
+import dayjs from "dayjs";
 
 export const createCheckIn = async (
     userId: string,
@@ -9,6 +10,24 @@ export const createCheckIn = async (
 ) => {
     const prisma = await initPrisma();
     const redis = await initRedis();
+
+    // Extra safety: Check DB for existing check-in today
+    const todayStart = dayjs().startOf('day').toDate();
+    const todayEnd = dayjs().endOf('day').toDate();
+
+    const existingCheckIn = await prisma.checkIn.findFirst({
+        where: {
+            userId,
+            createdAt: {
+                gte: todayStart,
+                lte: todayEnd,
+            },
+        },
+    });
+
+    if (existingCheckIn) {
+        throw new Error("You've already checked in today.");
+    }
 
     await redis.del('teamCheckIns');
 
