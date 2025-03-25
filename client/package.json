@@ -13,6 +13,7 @@
     "@types/react": "^19.0.12",
     "@types/react-dom": "^19.0.4",
     "axios": "^1.8.4",
+    "jwt-decode": "^4.0.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-router-dom": "^7.4.0",
@@ -45,6 +46,7 @@
     ]
   },
   "devDependencies": {
+    "@types/jwt-decode": "^3.1.0",
     "@types/react-router-dom": "^5.3.3"
   }
 }
